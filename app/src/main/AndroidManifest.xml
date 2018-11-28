@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.anton.medium">
+    package="com.anton.github">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".application.MediumApplication"
+        android:name="com.anton.github.application.GithubApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".presentation.splash.SplashActivity"
+            android:name="com.anton.github.presentation.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -23,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.login.LoginActivity" />
+        <activity android:name="com.anton.github.presentation.login.LoginActivity" />
+
+        <activity android:name="com.anton.github.presentation.profile.ProfileActivity" />
     </application>
 </manifest>
