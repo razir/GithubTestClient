@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.SpannableString
@@ -29,6 +30,8 @@ class ProfileActivity : BaseActivity() {
 
     private val viewModel: ProfileViewModel by inject()
     private lateinit var notificationsAdapter: NotificationsAdapter
+
+    private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,8 +71,16 @@ class ProfileActivity : BaseActivity() {
         viewModel.getNotificationsLoading().observe(this, ObserverNotNull { visible ->
             profileNotificationsProgress.visibility = if (visible) View.VISIBLE else View.INVISIBLE
         })
-        viewModel.getNotificationsError().observe(this, ObserverNotNull { visible ->
+        viewModel.getEmptyNotificationsError().observe(this, ObserverNotNull { visible ->
             showError(visible)
+        })
+
+        viewModel.getCachedNotificationsWarning().observe(this, ObserverNotNull { visible ->
+            if (visible) {
+                showSnackbarNotiFromCache()
+            } else {
+                dismissSnackbar()
+            }
         })
     }
 
@@ -102,5 +113,18 @@ class ProfileActivity : BaseActivity() {
             0
         )
         return spannable
+    }
+
+    private fun showSnackbarNotiFromCache() {
+        snackbar =
+                Snackbar.make(profileNotificationsList, R.string.snackbar_noti_from_cache, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.refresh) {
+                        viewModel.refreshNotifications()
+                    }
+        snackbar?.show()
+    }
+
+    private fun dismissSnackbar() {
+        snackbar?.dismiss()
     }
 }

@@ -1,13 +1,17 @@
 package com.anton.github.di
 
+import android.arch.persistence.room.Room
+import com.anton.github.datasource.AppDatabase
 import com.anton.github.datasource.GithubAuthApiBuilder
 import com.anton.github.datasource.GithubRestApiBuilder
 import com.anton.github.datasource.OkHttpClientBuilder
 import com.anton.github.datasource.auth.*
 import com.anton.github.datasource.content.GithubRestApi
 import com.anton.github.datasource.content.TokenInterceptor
-import com.anton.github.datasource.content.publication.PublicationRemoteRepository
-import com.anton.github.datasource.content.publication.PublicationRemoteRepositoryImpl
+import com.anton.github.datasource.content.notifications.NotificationLocalRepository
+import com.anton.github.datasource.content.notifications.NotificationLocalRepositoryImpl
+import com.anton.github.datasource.content.notifications.NotificationRemoteRepository
+import com.anton.github.datasource.content.notifications.NotificationRemoteRepositoryImpl
 import com.anton.github.datasource.content.user.UserLocalRepository
 import com.anton.github.datasource.content.user.UserLocalRepositoryImpl
 import com.anton.github.datasource.content.user.UserRemoteRepository
@@ -32,8 +36,19 @@ val appModule = module {
 
     viewModel { LoginWebViewModel(get(), get(), get()) }
     viewModel { SplashViewModel(get()) }
-    viewModel { ProfileViewModel(get(), get(), get()) }
+    viewModel { ProfileViewModel(get(), get(), get(), get()) }
 
+    single<AppDatabase> {
+        Room.databaseBuilder(
+            get(),
+            AppDatabase::class.java,
+            "github_db"
+        ).build()
+    }
+
+    single { get<AppDatabase>().notificationDao() }
+
+    single { get<AppDatabase>().repositoryDao() }
 
     factory<LoginUrlComposerUseCase> { LoginUrlComposerUseCaseImpl() }
 
@@ -61,11 +76,15 @@ val appModule = module {
 
     factory<UserRemoteRepository> { UserRemoteRepositoryImpl(get()) }
 
-    factory<PublicationRemoteRepository> { PublicationRemoteRepositoryImpl(get()) }
+    factory<NotificationRemoteRepository> { NotificationRemoteRepositoryImpl(get()) }
+
+    factory<NotificationLocalRepository> { NotificationLocalRepositoryImpl(get(), get()) }
 
     factory<AuthorizeUseCase> { AuthorizeUseCaseImpl(get(), get(), get(), get()) }
 
-    factory<GetNotificationsUseCase> { GetNotificationsUseCaseImpl(get()) }
+    factory<GetRemoteNotificationsUseCase> { GetRemoteNotificationsUseCaseImpl(get(), get()) }
 
     factory<GetRemoteUserProfileUseCase> { GetRemoteUserProfileUseCaseImpl(get(), get()) }
+
+    factory<GetLocalNotificationsUseCase> { GetLocalNotificationsUseCaseImpl(get()) }
 }
