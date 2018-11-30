@@ -44,13 +44,13 @@ class NotificationsAdapter(private val onNotificationClick: (notification: Notif
     }
 
     override fun getItemId(position: Int): Long {
-        return notifications[position].id?.hashCode()?.toLong() ?: RecyclerView.NO_ID
+        return notifications[position].id.hashCode().toLong()
     }
 
     inner class NotificationHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         init {
-            itemView.notificationTitle.setOnClickListener {
+            itemView.setOnClickListener {
                 val pos = adapterPosition
                 if (pos != RecyclerView.NO_POSITION) {
                     onNotificationClick(notifications[pos])

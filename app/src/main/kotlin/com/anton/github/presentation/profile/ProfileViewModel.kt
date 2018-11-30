@@ -7,17 +7,16 @@ import com.anton.github.data.entity.Notification
 import com.anton.github.data.entity.UserProfile
 import com.anton.github.datasource.content.user.UserLocalRepository
 import com.anton.github.domain.usecase.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.anton.github.utils.SingleLiveEvent
+import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class ProfileViewModel(
     private val userProfileLocalRepository: UserLocalRepository,
     private val getRemoteUserProfileUseCase: GetRemoteUserProfileUseCase,
     private val getRemoteNotificationsUseCase: GetRemoteNotificationsUseCase,
-    private val getLocalNotificationsUseCase: GetLocalNotificationsUseCase
+    private val getLocalNotificationsUseCase: GetLocalNotificationsUseCase,
+    private val getDetailsUrlUseCase: GetDetailsUrlUseCase
 ) : ViewModel(),
     CoroutineScope {
 
@@ -30,8 +29,12 @@ class ProfileViewModel(
     private var notificationsLoading = MutableLiveData<Boolean>()
     private var followersCount = MutableLiveData<Int>()
     private var followingCount = MutableLiveData<Int>()
+    private var openDetails = SingleLiveEvent<String>()
+    private var detailsLoadingError = SingleLiveEvent<Unit>()
+    private var detailsLoading = MutableLiveData<Boolean>()
 
     private var job = Job()
+    private var detailsJob: Job? = null
     override val coroutineContext: CoroutineContext = job
 
     fun getUserPicture(): LiveData<String> = userPicture
@@ -43,6 +46,9 @@ class ProfileViewModel(
     fun getNotificationsLoading(): LiveData<Boolean> = notificationsLoading
     fun getFollowersCount(): LiveData<Int> = followersCount
     fun getFollowingCount(): LiveData<Int> = followingCount
+    fun getOpenDetails(): LiveData<String> = openDetails
+    fun getDetailsLoading(): LiveData<Boolean> = detailsLoading
+    fun getDetailsLoadingError(): LiveData<Unit> = detailsLoadingError
 
     init {
         loadProfileFromCache()
@@ -52,6 +58,30 @@ class ProfileViewModel(
 
     fun refreshNotifications() {
         loadNotificationsFromRemote()
+    }
+
+    fun cancelLoadingDetails() {
+        detailsJob?.cancel()
+        detailsLoading.value = false
+    }
+
+    fun getDetails(notification: Notification) {
+        detailsJob?.cancel()
+        detailsJob = Job(job)
+        notification.subject?.url?.let {
+            detailsLoading.value = true
+            launch(detailsJob!! + Dispatchers.IO) {
+                delay(3000)
+                val result = getDetailsUrlUseCase.run(it)
+                launch(Dispatchers.Main) {
+                    detailsLoading.value = false
+                    when (result) {
+                        is SuccessUseCase<String> -> openDetails.value = result.result
+                        is ErrorUseCase<*> -> detailsLoadingError.call()
+                    }
+                }
+            }
+        }
     }
 
     private fun loadProfileFromRemote() {
@@ -104,7 +134,6 @@ class ProfileViewModel(
                         notifications.value = data.result
                     }
                     is ErrorUseCase<*> -> {
-                        data.e?.printStackTrace()
                         loadNotificationsFromCache()
                     }
                 }

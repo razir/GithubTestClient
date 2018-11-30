@@ -3,7 +3,15 @@ package com.anton.github.data.entity
 import android.arch.persistence.room.*
 import com.google.gson.annotations.SerializedName
 
-@Entity
+@Entity(
+    foreignKeys = arrayOf(
+        ForeignKey(
+            entity = Repository::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("repository_id")
+        )
+    )
+)
 class Notification {
     @PrimaryKey
     var id: String = ""
@@ -16,6 +24,8 @@ class Notification {
     var repository: Repository? = null
     @Embedded
     var subject: Subject? = null
+    @ColumnInfo(name = "repository_id")
+    var repositoryId: String = ""
 }
 
 const val SUBJECT_TYPE_PULL_REQUEST = "PullRequest"
@@ -27,5 +37,4 @@ class Subject {
     @ColumnInfo(name = "subject_url")
     var url: String? = null
     var type: String? = null
-    var notificationId: String? = null
 }

@@ -21,8 +21,8 @@ interface NotificationsDao {
 
 @Dao
 interface RepositoryDao {
-    @Query("SELECT * FROM repository WHERE notification_id == :notificationId ")
-    fun getForNotificationId(notificationId: String): Repository
+    @Query("SELECT * FROM repository WHERE id == :id")
+    fun getForNotificationId(id: String): Repository
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(repository: Repository)

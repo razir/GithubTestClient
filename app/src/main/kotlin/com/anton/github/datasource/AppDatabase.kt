@@ -7,7 +7,7 @@ import com.anton.github.data.entity.Repository
 import com.anton.github.datasource.content.notifications.NotificationsDao
 import com.anton.github.datasource.content.notifications.RepositoryDao
 
-@Database(entities = arrayOf(Notification::class, Repository::class), version = 1)
+@Database(entities = arrayOf(Notification::class, Repository::class), version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun notificationDao(): NotificationsDao
 

@@ -12,4 +12,5 @@
     <color name="colorSubjectPullRequest">#8bc34a</color>
     <color name="colorSubjectAlert">#e57373</color>
     <color name="colorSubjectDefault">#90a4ae</color>
+    <color name="white80">#D9ffffff</color>
 </resources>

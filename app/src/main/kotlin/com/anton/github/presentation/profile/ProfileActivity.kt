@@ -3,6 +3,8 @@ package com.anton.github.presentation.profile
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
@@ -19,6 +21,10 @@ import com.anton.github.presentation.profile.adapter.NotificationsAdapter
 import com.anton.github.utils.ObserverNotNull
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.koin.android.ext.android.inject
+import android.support.customtabs.CustomTabsIntent
+import saschpe.android.customtabs.WebViewFallback
+import saschpe.android.customtabs.CustomTabsHelper
+
 
 class ProfileActivity : BaseActivity() {
 
@@ -31,7 +37,8 @@ class ProfileActivity : BaseActivity() {
     private val viewModel: ProfileViewModel by inject()
     private lateinit var notificationsAdapter: NotificationsAdapter
 
-    private var snackbar: Snackbar? = null
+    private var snackbarNotifications: Snackbar? = null
+    private var snackbarDetails: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,11 +89,22 @@ class ProfileActivity : BaseActivity() {
                 dismissSnackbar()
             }
         })
+        viewModel.getOpenDetails().observe(this, ObserverNotNull { url ->
+            openUrl(url)
+        })
+
+        viewModel.getDetailsLoading().observe(this, ObserverNotNull { visible ->
+            profileProgress.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+        })
+
+        viewModel.getDetailsLoadingError().observe(this, Observer {
+            showSnackbarDetailsError()
+        })
     }
 
     private fun initViews() {
         notificationsAdapter = NotificationsAdapter {
-
+            viewModel.getDetails(it)
         }
         profileNotificationsList.apply {
             layoutManager = LinearLayoutManager(this@ProfileActivity)
@@ -96,6 +114,10 @@ class ProfileActivity : BaseActivity() {
         profileNotificationsErrorTxt.setOnClickListener {
             viewModel.refreshNotifications()
         }
+        profileProgressCancel.setOnClickListener {
+            viewModel.cancelLoadingDetails()
+        }
+
     }
 
     private fun showError(visible: Boolean) {
@@ -115,16 +137,33 @@ class ProfileActivity : BaseActivity() {
         return spannable
     }
 
+    private fun showSnackbarDetailsError() {
+        snackbarDetails = Snackbar.make(profileProgress, R.string.snackbar_details_error, Snackbar.LENGTH_LONG)
+        snackbarDetails?.show()
+    }
+
     private fun showSnackbarNotiFromCache() {
-        snackbar =
+        snackbarNotifications =
                 Snackbar.make(profileNotificationsList, R.string.snackbar_noti_from_cache, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.refresh) {
                         viewModel.refreshNotifications()
                     }
-        snackbar?.show()
+        snackbarNotifications?.show()
     }
 
     private fun dismissSnackbar() {
-        snackbar?.dismiss()
+        snackbarNotifications?.dismiss()
+    }
+
+    private fun openUrl(url: String) {
+        val customTabsIntent = CustomTabsIntent.Builder()
+            .addDefaultShareMenuItem()
+            .setToolbarColor(Color.WHITE)
+            .setShowTitle(true)
+            .build()
+        val uri = Uri.parse(url)
+
+        CustomTabsHelper.addKeepAliveExtra(this, customTabsIntent.intent)
+        CustomTabsHelper.openCustomTab(this, customTabsIntent, uri, WebViewFallback())
     }
 }

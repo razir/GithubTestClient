@@ -36,7 +36,7 @@ val appModule = module {
 
     viewModel { LoginWebViewModel(get(), get(), get()) }
     viewModel { SplashViewModel(get()) }
-    viewModel { ProfileViewModel(get(), get(), get(), get()) }
+    viewModel { ProfileViewModel(get(), get(), get(), get(), get()) }
 
     single<AppDatabase> {
         Room.databaseBuilder(
@@ -87,4 +87,6 @@ val appModule = module {
     factory<GetRemoteUserProfileUseCase> { GetRemoteUserProfileUseCaseImpl(get(), get()) }
 
     factory<GetLocalNotificationsUseCase> { GetLocalNotificationsUseCaseImpl(get()) }
+
+    factory<GetDetailsUrlUseCase> { GetDetailsUseUrlCaseImpl(get()) }
 }

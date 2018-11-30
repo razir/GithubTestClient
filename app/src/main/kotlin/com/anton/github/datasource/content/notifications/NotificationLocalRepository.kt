@@ -19,20 +19,20 @@ class NotificationLocalRepositoryImpl(
     override fun getNotifications(): List<Notification> {
         val notifications = notificationsDao.getAll()
         notifications.forEach {
-            it.id?.let { id ->
-                val repository = repositoryDao.getForNotificationId(id)
-                it.repository = repository
-            }
+            val repository = repositoryDao.getForNotificationId(it.repositoryId)
+            it.repository = repository
         }
         return notifications
     }
 
     override fun saveNotifications(data: List<Notification>) {
         notificationsDao.deleteAll()
+        data.forEach {
+            it.repositoryId = it.repository?.id ?: ""
+        }
         notificationsDao.save(data)
         data.forEach { notificaion ->
             notificaion.repository?.let {
-                it.notificationId = notificaion.id
                 repositoryDao.save(it)
             }
         }
@@ -40,6 +40,7 @@ class NotificationLocalRepositoryImpl(
 
     override fun deleteAll() {
         notificationsDao.deleteAll()
+        repositoryDao.deleteAll()
     }
 
 }
