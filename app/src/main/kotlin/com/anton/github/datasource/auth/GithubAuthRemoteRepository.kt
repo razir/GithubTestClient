@@ -12,6 +12,6 @@ interface GithubAuthRemoteRepository {
 
 class GithubAuthRemoteRepositoryImpl(private val api: GithubAuthApi) : GithubAuthRemoteRepository {
     override suspend fun getTokenByCode(code: String): TokenResponse {
-        return api.getTokenByCode(code, BuildConfig.MEDIUM_CLIENT_ID, BuildConfig.MEDIUM_SECRET).await()
+        return api.getTokenByCode(code, BuildConfig.GItHUB_CLIENT_ID, BuildConfig.GITHUB_SECRET).await()
     }
 }

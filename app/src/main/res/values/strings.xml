@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Medium by Anton</string>
+    <string name="profile_something_wrong">Something went wrong\nPlease tap to try again</string>
+    <string name="today">today</string>
+    <string name="yesterday">yesterday</string>
+    <string name="days_past">%d days ago</string>
+    <string name="subject_alert">alert</string>
+    <string name="subject_issue">issue</string>
+    <string name="subject_pull_request">pull request</string>
 </resources>

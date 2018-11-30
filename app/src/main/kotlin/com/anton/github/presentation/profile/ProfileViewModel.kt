@@ -29,6 +29,8 @@ class ProfileViewModel(
     private var notifications = MutableLiveData<List<Notification>>()
     private var notificationsError = MutableLiveData<Boolean>()
     private var notificationsLoading = MutableLiveData<Boolean>()
+    private var followersCount = MutableLiveData<Int>()
+    private var followingCount = MutableLiveData<Int>()
 
     private var job = Job()
     override val coroutineContext: CoroutineContext = job
@@ -39,6 +41,8 @@ class ProfileViewModel(
     fun getNotifications(): LiveData<List<Notification>> = notifications
     fun getNotificationsError(): LiveData<Boolean> = notificationsError
     fun getNotificationsLoading(): LiveData<Boolean> = notificationsLoading
+    fun getFollowersCount(): LiveData<Int> = followersCount
+    fun getFollowingCount(): LiveData<Int> = followingCount
 
     init {
         loadProfileFromCache()
@@ -48,6 +52,10 @@ class ProfileViewModel(
 
     fun refresh() {
         loadProfileFromRemote()
+        loadNotificationsFromRemote()
+    }
+
+    fun refreshNotifications() {
         loadNotificationsFromRemote()
     }
 
@@ -92,6 +100,8 @@ class ProfileViewModel(
         userName.value = profile.name
         userPicture.value = profile.avatarUrl
         userNickname.value = profile.login
+        followersCount.value = profile.followers
+        followingCount.value = profile.following
     }
 
     override fun onCleared() {

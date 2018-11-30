@@ -16,7 +16,7 @@ class LoginUrlComposerUseCaseImpl : LoginUrlComposerUseCase {
 
     override fun compose(): String {
         return Uri.parse(GITHUB_AUTHORIZE_URL).buildUpon()
-            .appendQueryParameter("client_id", BuildConfig.MEDIUM_CLIENT_ID)
+            .appendQueryParameter("client_id", BuildConfig.GItHUB_CLIENT_ID)
             .appendQueryParameter("scope", LOGIN_SCOPE)
             .appendQueryParameter("state", "dummy")
             .appendQueryParameter("response_type", "code")

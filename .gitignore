@@ -10,4 +10,4 @@
 /build
 /captures
 .externalNativeBuild
-/medium_client.properties
+github_client.properties
