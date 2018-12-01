@@ -95,8 +95,6 @@ class NotificationsViewModel(
                 when (data) {
                     is SuccessUseCase<List<Notification>> -> {
                         notificationsLoading.value = false
-                        emptyNotificationsError.value = false
-                        cachedNotificationsWarning.value = false
                         notifications.value = data.result
                     }
                     is ErrorUseCase<*> -> {
