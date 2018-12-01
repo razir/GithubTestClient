@@ -6,7 +6,7 @@ import kotlin.coroutines.CoroutineContext
 
 object DispatchersProvider {
     var Main: CoroutineContext = Dispatchers.Main
-    var IO: CoroutineDispatcher = Dispatchers.IO
+    var IO: CoroutineContext = Dispatchers.IO
 
     fun setupTests() {
         Main = Dispatchers.Unconfined

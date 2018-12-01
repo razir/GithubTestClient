@@ -3,13 +3,13 @@ package com.anton.github.data.entity
 import com.google.gson.annotations.SerializedName
 
 class UserProfile {
-    val id: String? = null
-    val login: String? = null
-    val name: String? = null
-    val url: String? = null
+    var id: String? = null
+    var login: String? = null
+    var name: String? = null
+    var url: String? = null
     @SerializedName("avatar_url")
-    val avatarUrl: String? = null
-    val followers: Int = 0;
-    val following: Int = 0;
-    val email: String? = null
+    var avatarUrl: String? = null
+    var followers: Int = 0;
+    var following: Int = 0;
+    var email: String? = null
 }

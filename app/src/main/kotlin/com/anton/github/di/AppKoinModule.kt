@@ -18,6 +18,7 @@ import com.anton.github.datasource.content.user.UserRemoteRepository
 import com.anton.github.datasource.content.user.UserRemoteRepositoryImpl
 import com.anton.github.domain.usecase.*
 import com.anton.github.presentation.login.web.LoginWebViewModel
+import com.anton.github.presentation.profile.NotificationsViewModel
 import com.anton.github.presentation.profile.ProfileViewModel
 import com.anton.github.presentation.splash.SplashViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -36,7 +37,8 @@ val appModule = module {
 
     viewModel { LoginWebViewModel(get(), get(), get()) }
     viewModel { SplashViewModel(get()) }
-    viewModel { ProfileViewModel(get(), get(), get(), get(), get(), get()) }
+    viewModel { ProfileViewModel(get(), get(), get()) }
+    viewModel { NotificationsViewModel(get(), get(), get()) }
 
     single<AppDatabase> {
         Room.databaseBuilder(

@@ -38,7 +38,8 @@ class ProfileActivity : BaseActivity() {
         }
     }
 
-    private val viewModel: ProfileViewModel by inject()
+    private val profileViewModel: ProfileViewModel by inject()
+    private val notificationsViewModel: NotificationsViewModel by inject()
     private lateinit var notificationsAdapter: NotificationsAdapter
 
     private var snackbarNotifications: Snackbar? = null
@@ -48,76 +49,82 @@ class ProfileActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initViews()
-        initViewModel()
+        initProfileViewModel()
+        initNotificationsViewModel()
     }
 
-    private fun initViewModel() {
-        viewModel.getUserPicture().observe(this, Observer { url ->
+    private fun initProfileViewModel() {
+        profileViewModel.getUserPicture().observe(this, Observer { url ->
             url?.let {
                 profileUserImg.loadImage(url)
             }
         })
-        viewModel.getUserName().observe(this, Observer { name ->
+        profileViewModel.getUserName().observe(this, Observer { name ->
             profileUserName.visibility = if (name == null) View.GONE else View.VISIBLE
             profileUserName.text = name
 
         })
 
-        viewModel.getUserNickname().observe(this, Observer { nickname ->
+        profileViewModel.getUserNickname().observe(this, Observer { nickname ->
             profileUserNickName.text = nickname
         })
 
-        viewModel.getNotifications().observe(this, Observer { notifications ->
+
+        profileViewModel.getFollowersCount().observe(this, ObserverNotNull { count ->
+            profileFollowers.text = createValueSpan(count, "Followers")
+        })
+        profileViewModel.getFollowingCount().observe(this, ObserverNotNull { count ->
+            profileFollowing.text = createValueSpan(count, "Following")
+        })
+
+
+        profileViewModel.getShowLogoutConfirm().observe(this, Observer {
+            showConfirmLogout()
+        })
+
+        profileViewModel.getShowLogin().observe(this, Observer {
+            startActivity(LoginActivity.getStartIntent(this))
+            finish()
+        })
+    }
+
+    private fun initNotificationsViewModel() {
+        notificationsViewModel.getNotifications().observe(this, Observer { notifications ->
             notifications?.let {
                 notificationsAdapter.notifications = it
             }
         })
-        viewModel.getFollowersCount().observe(this, ObserverNotNull { count ->
-            profileFollowers.text = createValueSpan(count, "Followers")
-        })
-        viewModel.getFollowingCount().observe(this, ObserverNotNull { count ->
-            profileFollowing.text = createValueSpan(count, "Following")
-        })
-
-        viewModel.getNotificationsLoading().observe(this, ObserverNotNull { visible ->
+        notificationsViewModel.getNotificationsLoading().observe(this, ObserverNotNull { visible ->
             profileNotificationsProgress.visibility = if (visible) View.VISIBLE else View.INVISIBLE
         })
-        viewModel.getEmptyNotificationsError().observe(this, ObserverNotNull { visible ->
+        notificationsViewModel.getEmptyNotificationsError().observe(this, ObserverNotNull { visible ->
             showError(visible)
         })
 
-        viewModel.getCachedNotificationsWarning().observe(this, ObserverNotNull { visible ->
+        notificationsViewModel.getCachedNotificationsWarning().observe(this, ObserverNotNull { visible ->
             if (visible) {
                 showSnackbarNotiFromCache()
             } else {
                 dismissSnackbar()
             }
         })
-        viewModel.getOpenDetails().observe(this, ObserverNotNull { url ->
+        notificationsViewModel.getOpenDetails().observe(this, ObserverNotNull { url ->
             openUrl(url)
         })
 
-        viewModel.getDetailsLoading().observe(this, ObserverNotNull { visible ->
+        notificationsViewModel.getDetailsLoading().observe(this, ObserverNotNull { visible ->
             profileProgress.visibility = if (visible) View.VISIBLE else View.INVISIBLE
         })
 
-        viewModel.getDetailsLoadingError().observe(this, Observer {
+        notificationsViewModel.getDetailsLoadingError().observe(this, Observer {
             showSnackbarDetailsError()
         })
 
-        viewModel.getShowLogoutConfirm().observe(this, Observer {
-            showConfirmLogout()
-        })
-
-        viewModel.getShowLogin().observe(this, Observer {
-            startActivity(LoginActivity.getStartIntent(this))
-            finish()
-        })
     }
 
     private fun initViews() {
         notificationsAdapter = NotificationsAdapter {
-            viewModel.getDetails(it)
+            notificationsViewModel.getDetails(it)
         }
         profileNotificationsList.apply {
             layoutManager = LinearLayoutManager(this@ProfileActivity)
@@ -125,13 +132,13 @@ class ProfileActivity : BaseActivity() {
             addItemDecoration(NotificationDivider(this@ProfileActivity))
         }
         profileNotificationsErrorTxt.setOnClickListener {
-            viewModel.refreshNotifications()
+            notificationsViewModel.refreshNotifications()
         }
         profileProgressCancel.setOnClickListener {
-            viewModel.cancelLoadingDetails()
+            notificationsViewModel.cancelLoadingDetails()
         }
         profileLogout.setOnClickListener {
-            viewModel.logoutClick()
+            profileViewModel.logoutClick()
         }
 
     }
@@ -168,7 +175,7 @@ class ProfileActivity : BaseActivity() {
         snackbarNotifications =
                 Snackbar.make(profileNotificationsList, R.string.snackbar_noti_from_cache, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.refresh) {
-                        viewModel.refreshNotifications()
+                        notificationsViewModel.refreshNotifications()
                     }
         snackbarNotifications?.show()
     }
@@ -182,7 +189,7 @@ class ProfileActivity : BaseActivity() {
             .setTitle(R.string.confirm_logout_title)
             .setMessage(R.string.confirm_logout_message)
             .setPositiveButton(R.string.confirm) { _, _ ->
-                viewModel.logoutConfirmed()
+                profileViewModel.logoutConfirmed()
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
