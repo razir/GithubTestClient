@@ -5,8 +5,11 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.anton.github.constants.GITHUB_OAUTH_REDIRECT_URL
 import com.anton.github.domain.usecase.*
+import com.anton.github.utils.DispatchersProvider
 import com.anton.github.utils.SingleLiveEvent
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class LoginWebViewModel(
@@ -76,9 +79,9 @@ class LoginWebViewModel(
     }
 
     private fun getToken(code: String) {
-        launch(Dispatchers.IO) {
+        launch(DispatchersProvider.IO) {
             val result = authorizeUseCase.run(code)
-            launch(Dispatchers.Main) {
+            launch(DispatchersProvider.Main) {
                 when (result) {
                     is ErrorUseCase -> showTokenError.value = result.msg
                     is CompletedUseCase -> showProfile.call()

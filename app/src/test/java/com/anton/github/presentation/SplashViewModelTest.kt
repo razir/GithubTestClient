@@ -6,9 +6,9 @@ import com.anton.github.datasource.auth.GithubAuthLocalRepository
 import com.anton.github.presentation.splash.SplashViewModel
 import com.anton.github.utils.DispatchersProvider
 import com.anton.github.utils.testObserver
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.test.TestCoroutineContext
 import org.junit.After
 import org.junit.Assert.assertEquals
