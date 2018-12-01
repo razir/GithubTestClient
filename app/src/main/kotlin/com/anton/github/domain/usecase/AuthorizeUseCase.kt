@@ -21,11 +21,11 @@ class AuthorizeUseCaseImpl(
             val token = tokenRemoteRepository.getTokenByCode(code)
             tokenLocalRepository.token = token
             val profile = userRemoteRemoteRepository.getProfile()
-            profile?.let {
-                userLocalRepository.userProfile = it
-            }
+            userLocalRepository.userProfile = profile
             return CompletedUseCase
         } catch (e: Exception) {
+            tokenLocalRepository.token = null
+            userLocalRepository.userProfile = null
             return ErrorUseCase(e.message, e)
         }
     }
