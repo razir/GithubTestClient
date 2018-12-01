@@ -29,13 +29,11 @@ class NotificationLocalRepositoryImpl(
         notificationsDao.deleteAll()
         data.forEach {
             it.repositoryId = it.repository?.id ?: ""
-        }
-        notificationsDao.save(data)
-        data.forEach { notificaion ->
-            notificaion.repository?.let {
+            it.repository?.let {
                 repositoryDao.save(it)
             }
         }
+        notificationsDao.save(data)
     }
 
     override fun deleteAll() {
