@@ -32,6 +32,22 @@ class LoginWebViewFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupWebViewClient()
+        initViews()
+        initViewModel()
+    }
+
+    private fun initViews() {
+        loginToolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+        loginToolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+        loginToolbar.setTitle(R.string.login_on_github)
+        loginWebViewError.setOnClickListener {
+            viewModel.handleRefresh()
+        }
+    }
+
+    private fun initViewModel() {
         viewModel.getLoadUrl().observe(viewLifecycleOwner, Observer { url ->
             loginWebView.loadUrl(url)
         })
@@ -40,13 +56,20 @@ class LoginWebViewFragment : BaseFragment() {
             loginWebViewProgress.visibility = if (visible) View.VISIBLE else View.INVISIBLE
         })
 
-        viewModel.getShowLoginRequired().observe(viewLifecycleOwner, ObserverNotNull { show ->
+        viewModel.getShowTokenError().observe(viewLifecycleOwner, Observer {
             showFragment(NotLoggedFragment.newInstance(), clearStack = true)
         })
         viewModel.getShowProfile().observe(viewLifecycleOwner, Observer {
             context?.let {
                 startActivity(ProfileActivity.getStartIntent(it))
             }
+        })
+        viewModel.getShowWebError().observe(viewLifecycleOwner, ObserverNotNull { visible ->
+            loginWebErrorGroup.visibility = if (visible) View.VISIBLE else View.GONE
+        })
+
+        viewModel.getShowWebView().observe(viewLifecycleOwner, ObserverNotNull { visible ->
+            loginWebView.visibility = if (visible) View.VISIBLE else View.GONE
         })
     }
 
@@ -63,7 +86,18 @@ class LoginWebViewFragment : BaseFragment() {
                 viewModel.handleUrl(request?.url.toString())
                 return true
             }
+
+            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                super.onReceivedError(view, request, error)
+                viewModel.handleError()
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                viewModel.handleLoadingFinished(url)
+            }
         }
+
         loginWebView.settings.apply {
             javaScriptEnabled = true
         }
