@@ -13,4 +13,7 @@
     <string name="snackbar_details_error">Can\'t load details</string>
     <string name="login_on_github">Login on github</string>
     <string name="login_title">please login to start</string>
+    <string name="confirm_logout_title">Confimation</string>
+    <string name="confirm_logout_message">Please confirm logout and clear all user data</string>
+    <string name="confirm">Confirm</string>
 </resources>

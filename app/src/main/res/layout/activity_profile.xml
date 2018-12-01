@@ -8,30 +8,57 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        app:elevation="0dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/profileUserImg"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+            <View
+                android:id="@+id/profileWhiteBorder"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/bg_profile_rounded"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/profileUserImg"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/bg_avatar"
+                android:padding="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_oval="true" />
+
             <TextView
                 android:id="@+id/profileUserNickName"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:gravity="center"
-                android:textColor="@color/colorTextPrimary"
-                android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@id/profileUserImg"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginBottom="10dp"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/profileWhiteBorder"
+                app:layout_constraintStart_toEndOf="@id/profileUserImg" />
+
+            <ImageView
+                android:id="@+id/profileLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="10dp"
+                app:layout_constraintBottom_toTopOf="@id/profileWhiteBorder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_outline_power_settings_new_24px" />
 
             <TextView
                 android:id="@+id/profileUserName"
@@ -45,7 +72,7 @@
                 android:id="@+id/profileFollowers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/profileUserNickName"
@@ -60,6 +87,7 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/profileFollowers"
                 app:layout_constraintTop_toTopOf="@id/profileFollowers" />
+
         </android.support.constraint.ConstraintLayout>
     </android.support.design.widget.AppBarLayout>
 

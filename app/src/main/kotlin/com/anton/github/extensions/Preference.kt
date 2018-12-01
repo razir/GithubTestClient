@@ -15,7 +15,11 @@ class ObjectPreferenceDelegate<T>(
     }
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: T?) {
-        sp.edit().putString(key, serialize(value)).apply()
+        if (value == null) {
+            sp.edit().remove(key).apply()
+        } else {
+            sp.edit().putString(key, serialize(value)).apply()
+        }
     }
 }
 

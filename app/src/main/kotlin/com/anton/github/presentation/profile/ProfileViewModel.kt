@@ -16,7 +16,8 @@ class ProfileViewModel(
     private val getRemoteUserProfileUseCase: GetRemoteUserProfileUseCase,
     private val getRemoteNotificationsUseCase: GetRemoteNotificationsUseCase,
     private val getLocalNotificationsUseCase: GetLocalNotificationsUseCase,
-    private val getDetailsUrlUseCase: GetDetailsUrlUseCase
+    private val getDetailsUrlUseCase: GetDetailsUrlUseCase,
+    private val logoutUseCase: LogoutUseCase
 ) : ViewModel(),
     CoroutineScope {
 
@@ -32,6 +33,8 @@ class ProfileViewModel(
     private var openDetails = SingleLiveEvent<String>()
     private var detailsLoadingError = SingleLiveEvent<Unit>()
     private var detailsLoading = MutableLiveData<Boolean>()
+    private var showLogoutConfirm = SingleLiveEvent<Unit>()
+    private var showLogin = SingleLiveEvent<Unit>()
 
     private var job = Job()
     private var detailsJob: Job? = null
@@ -49,6 +52,8 @@ class ProfileViewModel(
     fun getOpenDetails(): LiveData<String> = openDetails
     fun getDetailsLoading(): LiveData<Boolean> = detailsLoading
     fun getDetailsLoadingError(): LiveData<Unit> = detailsLoadingError
+    fun getShowLogoutConfirm(): LiveData<Unit> = showLogoutConfirm
+    fun getShowLogin(): LiveData<Unit> = showLogin
 
     init {
         loadProfileFromCache()
@@ -63,6 +68,19 @@ class ProfileViewModel(
     fun cancelLoadingDetails() {
         detailsJob?.cancel()
         detailsLoading.value = false
+    }
+
+    fun logoutClick() {
+        showLogoutConfirm.call()
+    }
+
+    fun logoutConfirmed() {
+        launch(Dispatchers.IO) {
+            logoutUseCase.run()
+            launch(Dispatchers.Main) {
+                showLogin.call()
+            }
+        }
     }
 
     fun getDetails(notification: Notification) {

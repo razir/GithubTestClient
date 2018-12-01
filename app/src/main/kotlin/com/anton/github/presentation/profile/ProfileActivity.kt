@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -22,6 +23,9 @@ import com.anton.github.utils.ObserverNotNull
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.koin.android.ext.android.inject
 import android.support.customtabs.CustomTabsIntent
+import android.support.v7.app.AlertDialog
+import android.text.style.StyleSpan
+import com.anton.github.presentation.login.LoginActivity
 import saschpe.android.customtabs.WebViewFallback
 import saschpe.android.customtabs.CustomTabsHelper
 
@@ -43,8 +47,8 @@ class ProfileActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-        initViewModel()
         initViews()
+        initViewModel()
     }
 
     private fun initViewModel() {
@@ -100,6 +104,15 @@ class ProfileActivity : BaseActivity() {
         viewModel.getDetailsLoadingError().observe(this, Observer {
             showSnackbarDetailsError()
         })
+
+        viewModel.getShowLogoutConfirm().observe(this, Observer {
+            showConfirmLogout()
+        })
+
+        viewModel.getShowLogin().observe(this, Observer {
+            startActivity(LoginActivity.getStartIntent(this))
+            finish()
+        })
     }
 
     private fun initViews() {
@@ -117,6 +130,9 @@ class ProfileActivity : BaseActivity() {
         profileProgressCancel.setOnClickListener {
             viewModel.cancelLoadingDetails()
         }
+        profileLogout.setOnClickListener {
+            viewModel.logoutClick()
+        }
 
     }
 
@@ -130,6 +146,12 @@ class ProfileActivity : BaseActivity() {
         val spannable = SpannableString("$formattedValue $name")
         spannable.setSpan(
             ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorTextPrimary)),
+            0,
+            formattedValue.length,
+            0
+        )
+        spannable.setSpan(
+            StyleSpan(Typeface.BOLD),
             0,
             formattedValue.length,
             0
@@ -153,6 +175,17 @@ class ProfileActivity : BaseActivity() {
 
     private fun dismissSnackbar() {
         snackbarNotifications?.dismiss()
+    }
+
+    private fun showConfirmLogout() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.confirm_logout_title)
+            .setMessage(R.string.confirm_logout_message)
+            .setPositiveButton(R.string.confirm) { _, _ ->
+                viewModel.logoutConfirmed()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun openUrl(url: String) {

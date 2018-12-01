@@ -27,6 +27,7 @@ class NotificationLocalRepositoryImpl(
 
     override fun saveNotifications(data: List<Notification>) {
         notificationsDao.deleteAll()
+        repositoryDao.deleteAll()
         data.forEach {
             it.repositoryId = it.repository?.id ?: ""
             it.repository?.let {
