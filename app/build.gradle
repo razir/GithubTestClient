@@ -54,8 +54,9 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$aac_version"
     kapt "android.arch.persistence.room:compiler:$aac_version"
 
-    implementation 'org.koin:koin-android:1.0.2'
-    implementation 'org.koin:koin-android-viewmodel:1.0.2'
+    def koin_version = "1.0.2"
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     implementation 'saschpe.android:customtabs:1.1.2'
 
@@ -70,7 +71,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
     testImplementation "android.arch.core:core-testing:$aac_version"
-    testImplementation 'org.koin:koin-test:1.0.2'
+    testImplementation "org.koin:koin-test:$koin_version"
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
