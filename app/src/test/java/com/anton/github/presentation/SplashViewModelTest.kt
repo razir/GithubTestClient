@@ -1,5 +1,7 @@
 package com.anton.github.presentation
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import com.anton.github.data.api.response.TokenResponse
 import com.anton.github.datasource.auth.GithubAuthLocalRepository
 import com.anton.github.presentation.splash.SplashViewModel
 import com.anton.github.utils.DispatchersProvider
@@ -7,18 +9,14 @@ import com.anton.github.utils.testObserver
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineContext
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Test
-import java.util.concurrent.TimeUnit
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import com.anton.github.data.api.response.TokenResponse
-import org.junit.rules.TestRule
 import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestRule
+import java.util.concurrent.TimeUnit
 
 
 class SplashViewModelTest {
