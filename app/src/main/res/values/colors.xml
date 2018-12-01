@@ -8,6 +8,7 @@
 
     <color name="colorBtnNormal">#EEEEEE</color>
     <color name="colorBtnPressed">#E0E0E0</color>
+    <color name="colorBorder">#E0E0E0</color>
     <color name="colorSubjectIssue">#29b6f6</color>
     <color name="colorSubjectPullRequest">#8bc34a</color>
     <color name="colorSubjectAlert">#e57373</color>

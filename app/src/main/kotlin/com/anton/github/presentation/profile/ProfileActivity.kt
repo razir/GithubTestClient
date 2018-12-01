@@ -59,11 +59,6 @@ class ProfileActivity : BaseActivity() {
                 profileUserImg.loadImage(url)
             }
         })
-        profileViewModel.getUserName().observe(this, Observer { name ->
-            profileUserName.visibility = if (name == null) View.GONE else View.VISIBLE
-            profileUserName.text = name
-
-        })
 
         profileViewModel.getUserNickname().observe(this, Observer { nickname ->
             profileUserNickName.text = nickname

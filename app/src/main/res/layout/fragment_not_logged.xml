@@ -76,7 +76,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/loginSubTitle"
             app:rippleColor="@color/colorBtnPressed"
-            app:strokeColor="@color/colorBtnPressed"
+            app:strokeColor="@color/colorBorder"
             app:strokeWidth="1dp" />
 
 
