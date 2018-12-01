@@ -36,7 +36,7 @@ class SplashViewModelTest {
 
     @After
     fun reset() {
-
+        DispatchersProvider.reset()
     }
 
     @Test
