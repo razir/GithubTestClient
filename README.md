@@ -78,6 +78,6 @@ client_secret={your_client_secret_here}
  - Add more functionality
  
 ## Author
- [LinkedIn] (https://www.linkedin.com/in/anton-hadutski-00954342/) . 
+ [LinkedIn](https://www.linkedin.com/in/anton-hadutski-00954342/) . 
  
- [Facebook] (https://facebook.com/razir.anton) 
+ [Facebook](https://facebook.com/razir.anton) 
