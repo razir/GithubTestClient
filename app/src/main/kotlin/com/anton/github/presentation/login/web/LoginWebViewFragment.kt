@@ -62,6 +62,7 @@ class LoginWebViewFragment : BaseFragment() {
         viewModel.getShowProfile().observe(viewLifecycleOwner, Observer {
             context?.let {
                 startActivity(ProfileActivity.getStartIntent(it))
+                activity?.finish()
             }
         })
         viewModel.getShowWebError().observe(viewLifecycleOwner, ObserverNotNull { visible ->
