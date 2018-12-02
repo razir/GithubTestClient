@@ -66,10 +66,10 @@ class ProfileActivity : BaseActivity() {
 
 
         profileViewModel.getFollowersCount().observe(this, ObserverNotNull { count ->
-            profileFollowers.text = createValueSpan(count, "Followers")
+            profileFollowers.text = createValueSpan(count, getString(R.string.followers))
         })
         profileViewModel.getFollowingCount().observe(this, ObserverNotNull { count ->
-            profileFollowing.text = createValueSpan(count, "Following")
+            profileFollowing.text = createValueSpan(count, getString(R.string.following))
         })
 
 

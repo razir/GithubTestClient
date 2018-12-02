@@ -89,6 +89,10 @@ class LoginWebFragmentTest : KoinComponent {
     @Test
     fun testRefreshHaveConnection() {
         val screen = LoginWebScreen()
+        whenever(mockedNetworkProvider.isNetworkAvailable()).thenReturn(false)
+        screen {
+            loginWebviewErrorText.isDisplayed()
+        }
         whenever(mockedNetworkProvider.isNetworkAvailable()).thenReturn(true)
         whenever(loginUrlComposerUseCase.compose()).thenReturn("https://google.com")
         screen {

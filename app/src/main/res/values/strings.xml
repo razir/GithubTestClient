@@ -16,4 +16,6 @@
     <string name="confirm_logout_title">Confimation</string>
     <string name="confirm_logout_message">Please confirm logout and clear all user data</string>
     <string name="confirm">Confirm</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
 </resources>
