@@ -45,16 +45,16 @@ This client is made for test purpose only. It's not related to Gitbub Inc. in an
   * AndroidJUnit tests for the rest of untested by JUnit use cases
 ### Extensions package
 - *main*
- * Kotlin extensions code
+  * Kotlin extensions code
 - *androidTest*
- * AndroidJUnit for some extensions
+  * AndroidJUnit for some extensions
 ### Presentaion package
 - *main*
- * All UI related code + ViewModels
+  * All UI related code + ViewModels
 - *test*
- * JUnit tests for ViewModels
+  * JUnit tests for ViewModels
 - *androidTest*
- * Espresso+ Kakao tests for Activities and Fragments
+  * Espresso+ Kakao tests for Activities and Fragments
 
 ## Instructions to run
 
