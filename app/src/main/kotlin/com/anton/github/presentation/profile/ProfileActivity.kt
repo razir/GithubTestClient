@@ -14,7 +14,7 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import com.anton.github.R
-import com.anton.github.extensions.formatNumberWithComma
+import com.anton.github.extensions.formatNumber
 import com.anton.github.extensions.loadImage
 import com.anton.github.presentation.base.BaseActivity
 import com.anton.github.presentation.profile.adapter.NotificationDivider
@@ -143,7 +143,7 @@ class ProfileActivity : BaseActivity() {
     }
 
     private fun createValueSpan(value: Int, name: String): SpannableString {
-        val formattedValue = value.formatNumberWithComma()
+        val formattedValue = value.formatNumber()
 
         val spannable = SpannableString("$formattedValue $name")
         spannable.setSpan(
