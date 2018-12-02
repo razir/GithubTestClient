@@ -76,4 +76,8 @@ client_secret={your_client_secret_here}
 ### Todos
  - Write more UI tests
  - Add more functionality
-
+ 
+## Author
+ [LinkedIn] (https://www.linkedin.com/in/anton-hadutski-00954342/) . 
+ 
+ [Facebook] (https://facebook.com/razir.anton) 
