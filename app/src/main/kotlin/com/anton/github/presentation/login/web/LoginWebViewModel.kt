@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel
 import com.anton.github.constants.GITHUB_OAUTH_REDIRECT_URL
 import com.anton.github.domain.usecase.*
 import com.anton.github.utils.DispatchersProvider
+import com.anton.github.utils.NetworkStatusProvider
 import com.anton.github.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -15,7 +16,9 @@ import kotlin.coroutines.CoroutineContext
 class LoginWebViewModel(
     private val loginUrlComposerUseCase: LoginUrlComposerUseCase,
     private val loginUrlCallbackHandlerUseCase: LoginCallbackHandlerUseCase,
-    private val authorizeUseCase: AuthorizeUseCase
+    private val authorizeUseCase: AuthorizeUseCase,
+    private val networkStatusProvider: NetworkStatusProvider
+
 ) : ViewModel(), CoroutineScope {
     private val showProgress = MutableLiveData<Boolean>()
     private val loadUrl = SingleLiveEvent<String>()
@@ -36,8 +39,12 @@ class LoginWebViewModel(
     private var lastRedirectUrl: String? = null
 
     init {
-        showProgress.value = true
-        loadUrl(loginUrlComposerUseCase.compose())
+        if (networkStatusProvider.isNetworkAvailable()) {
+            showProgress.value = true
+            loadUrl(loginUrlComposerUseCase.compose())
+        } else {
+            handleError()
+        }
     }
 
     fun handleUrl(url: String?) {
@@ -59,9 +66,11 @@ class LoginWebViewModel(
     }
 
     fun handleRefresh() {
-        showWebError.value = false
-        showProgress.value = true
-        loadUrl(loginUrlComposerUseCase.compose())
+        if (networkStatusProvider.isNetworkAvailable()) {
+            showWebError.value = false
+            showProgress.value = true
+            loadUrl(loginUrlComposerUseCase.compose())
+        }
     }
 
     fun handleLoadingFinished(url: String?) {

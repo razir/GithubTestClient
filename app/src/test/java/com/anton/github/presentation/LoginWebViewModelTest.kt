@@ -5,6 +5,7 @@ import com.anton.github.constants.GITHUB_OAUTH_REDIRECT_URL
 import com.anton.github.domain.usecase.*
 import com.anton.github.presentation.login.web.LoginWebViewModel
 import com.anton.github.utils.DispatchersProvider
+import com.anton.github.utils.NetworkStatusProvider
 import com.anton.github.utils.testObserver
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.runBlocking
@@ -21,6 +22,7 @@ class LoginWebViewModelTest {
     val loginUrlComposerUseCase: LoginUrlComposerUseCase = mock()
     val loginCallbackHandlerUseCase: LoginCallbackHandlerUseCase = mock()
     val authorizeUseCase: AuthorizeUseCase = mock()
+    val networkStatusProvider: NetworkStatusProvider = mock()
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -32,7 +34,11 @@ class LoginWebViewModelTest {
     fun setup() {
         DispatchersProvider.setupTests()
         doReturn(testUrl).whenever(loginUrlComposerUseCase).compose()
-        viewModel = LoginWebViewModel(loginUrlComposerUseCase, loginCallbackHandlerUseCase, authorizeUseCase)
+        whenever(networkStatusProvider.isNetworkAvailable()).doReturn(true)
+        viewModel = LoginWebViewModel(
+            loginUrlComposerUseCase, loginCallbackHandlerUseCase,
+            authorizeUseCase, networkStatusProvider
+        )
     }
 
     @After

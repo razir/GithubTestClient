@@ -8,7 +8,7 @@ import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
 val viewModelModule = module {
-    viewModel { LoginWebViewModel(get(), get(), get()) }
+    viewModel { LoginWebViewModel(get(), get(), get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel { ProfileViewModel(get(), get(), get()) }
     viewModel { NotificationsViewModel(get(), get(), get()) }

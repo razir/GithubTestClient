@@ -6,6 +6,8 @@ import com.anton.github.datasource.OkHttpClientBuilder
 import com.anton.github.datasource.auth.GithubAuthApi
 import com.anton.github.datasource.content.GithubRestApi
 import com.anton.github.datasource.content.TokenInterceptor
+import com.anton.github.utils.NetworkStatusProvider
+import com.anton.github.utils.NetworkStatusProviderImpl
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.dsl.module.module
@@ -30,4 +32,6 @@ val apiModule = module {
     single<GithubAuthApi> { GithubAuthApiBuilder(get(OKHTTP_AUTH), get(), get()).build() }
 
     single<GithubRestApi> { GithubRestApiBuilder(get(OKHTTP_CONTENT), get(), get()).build() }
+
+    single<NetworkStatusProvider> { NetworkStatusProviderImpl(get()) }
 }
