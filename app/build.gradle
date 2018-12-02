@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.anton.medium"
+        applicationId "com.anton.github"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
