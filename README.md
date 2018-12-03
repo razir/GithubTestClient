@@ -72,7 +72,7 @@ client_secret={your_client_secret_here}
  
  
 ### Short video demostrantion of app workflow
-   https://drive.google.com/open?id=1L9BRnS7qELimUwrrneMK-R3ndNktPEmO
+   https://drive.google.com/file/d/1L9BRnS7qELimUwrrneMK-R3ndNktPEmO/view?usp=sharing
 ### Todos
  - Write more UI tests
  - Add more functionality
