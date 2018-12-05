@@ -40,7 +40,7 @@ client_secret={your_client_secret_here}
 
 
 #### To run from the apk: 
- 1) Download the latest release from [here](https://github.com/razir/GithubTestClient/releases/tag/1.0) 
+ 1) Download the latest release from [here](https://github.com/razir/GithubTestClient/releases/) 
  
  
 ### Short video demostrantion of app workflow
