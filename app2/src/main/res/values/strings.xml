@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">Github client by Anton</string>
+    <string name="app_name">Github demo client by Anton</string>
+    <string name="error_something_wrong">Something went wrong\nPlease tap to try again</string>
+    <string name="today">today</string>
+    <string name="yesterday">yesterday</string>
+    <string name="days_past">%d days ago</string>
+    <string name="subject_alert">alert</string>
+    <string name="subject_issue">issue</string>
+    <string name="subject_pull_request">pull request</string>
+    <string name="snackbar_noti_from_cache">Offline mode. Notification loaded from cache</string>
+    <string name="refresh">Refresh</string>
+    <string name="cancel">Cancel</string>
+    <string name="snackbar_details_error">Can\'t load details</string>
+    <string name="login_on_github">Login on github</string>
+    <string name="login_title">please login to start</string>
+    <string name="confirm_logout_title">Confimation</string>
+    <string name="confirm_logout_message">Please confirm logout and clear all user data</string>
+    <string name="confirm">Confirm</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
 </resources>
