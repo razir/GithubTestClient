@@ -17,7 +17,7 @@ This client is made for test purpose only. It's not related to Gitbub Inc. in an
   - *Unit tests:* mockito-kotlin2 
   - *Android Instrumental tests:* Espresso + Kakao + mockito-kotlin2
 
-# App2
+# App2 (tests under development)
 
 ## Libraries & Solutions used:
   - *Architecture*: MVVM
