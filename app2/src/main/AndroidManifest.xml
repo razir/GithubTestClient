@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.anton.github">
+    package="com.anton.github2">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.anton.github.application.GithubClientApplication"
+        android:name="com.anton.github2.application.GithubClientApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.anton.github.presentation.splash.SplashActivity"
+            android:name="com.anton.github2.presentation.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.anton.github.presentation.login.LoginActivity"
+            android:name="com.anton.github2.presentation.login.LoginActivity"
             android:screenOrientation="portrait" />
 
         <!--<activity-->
