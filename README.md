@@ -7,6 +7,7 @@ This client is made for test purpose only. It's not related to Gitbub Inc. in an
   - Show your first 30 github notifications
 
 # App1
+
 ## Libraries & Solutions used:
   - *Architecture*: MVVM
   - *MVVM Framework:* Android Architecture Components
@@ -17,6 +18,7 @@ This client is made for test purpose only. It's not related to Gitbub Inc. in an
   - *Android Instrumental tests:* Espresso + Kakao + mockito-kotlin2
 
 # App2
+
 ## Libraries & Solutions used:
   - *Architecture*: MVVM
   - *MVVM Framework:* Android Architecture Components
