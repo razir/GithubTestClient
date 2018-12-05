@@ -12,6 +12,7 @@ import com.anton.github2.R
 import com.anton.github2.extensions.showFragment
 import com.anton.github2.presentation.base.BaseFragment
 import com.anton.github2.presentation.login.start.NotLoggedFragment
+import com.anton.github2.presentation.profile.ProfileActivity
 import com.anton.github2.utils.ObserverNotNull
 import kotlinx.android.synthetic.main.fragment_login_webview.*
 import javax.inject.Inject
@@ -64,7 +65,7 @@ class LoginWebViewFragment : BaseFragment() {
         })
         viewModel.getShowProfile().observe(viewLifecycleOwner, Observer {
             context?.let {
-//                startActivity(ProfileActivity.getStartIntent(it))
+                startActivity(ProfileActivity.getStartIntent(it))
                 activity?.finish()
             }
         })

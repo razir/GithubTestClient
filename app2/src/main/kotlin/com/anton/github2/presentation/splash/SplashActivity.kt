@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import com.anton.github2.presentation.base.BaseActivity
 import com.anton.github2.presentation.login.LoginActivity
+import com.anton.github2.presentation.profile.ProfileActivity
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -35,7 +36,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun showProfile() {
-//        startActivity(ProfileActivity.getStartIntent(this))
+        startActivity(ProfileActivity.getStartIntent(this))
         finish()
     }
 }

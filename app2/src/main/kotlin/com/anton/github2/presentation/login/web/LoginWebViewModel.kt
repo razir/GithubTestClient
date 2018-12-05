@@ -54,8 +54,10 @@ class LoginWebViewModel(
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError {
+                    it.printStackTrace()
                     showWebError.value = true
                 }
+                .observeOn(Schedulers.io())
                 .flatMapCompletable {
                     getToken(it)
                 }
@@ -103,6 +105,7 @@ class LoginWebViewModel(
                 showProfile.call()
             }
             .doOnError {
+                it.printStackTrace()
                 showTokenError.value = it.message
             }
     }

@@ -17,7 +17,8 @@ import javax.inject.Singleton
         SplashModule::class,
         UseCaseModule::class,
         ApiModule::class,
-        LoginModule::class
+        LoginModule::class,
+        ProfileModule::class
     ]
 )
 interface AppComponent : AndroidInjector<GithubClientApplication> {

@@ -16,14 +16,14 @@ class LoginCallbackHandlerUseCaseImpl : LoginCallbackHandlerUseCase {
             val uri = Uri.parse(url)
             val error = uri.getQueryParameter("error")
             if (error != null) {
-                Single.error<String>(Throwable())
+                return@defer Single.error<String>(Throwable())
             } else {
                 val code = uri.getQueryParameter("code")
                 if (code != null) {
-                    Single.just(code)
+                    return@defer Single.just(code)
                 }
             }
-            Single.error<String>(Throwable())
+            return@defer Single.error<String>(Throwable())
         }
     }
 }

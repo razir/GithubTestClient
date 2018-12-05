@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.anton.github2.presentation.splash.SplashActivity"
+            android:name=".presentation.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -26,11 +26,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.anton.github2.presentation.login.LoginActivity"
+            android:name=".presentation.login.LoginActivity"
             android:screenOrientation="portrait" />
 
-        <!--<activity-->
-            <!--android:name="com.anton.github.presentation.profile.ProfileActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".presentation.profile.ProfileActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
