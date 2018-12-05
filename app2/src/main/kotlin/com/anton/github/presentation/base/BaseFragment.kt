@@ -1,6 +1,6 @@
 package com.anton.github.presentation.base
 
-import android.support.v4.app.Fragment
+import dagger.android.support.DaggerFragment
 
-abstract class BaseFragment: Fragment() {
+abstract class BaseFragment: DaggerFragment() {
 }
