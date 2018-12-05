@@ -15,6 +15,13 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        def githubPropertiesFile = rootProject.file("github_client.properties")
+        def githubProperties = new Properties()
+
+        githubProperties.load(new FileInputStream(githubPropertiesFile))
+
+        buildConfigField("String", "GItHUB_CLIENT_ID", "\"${githubProperties['client_id']}\"")
+        buildConfigField("String", "GITHUB_SECRET", "\"${githubProperties['client_secret']}\"")
     }
 
     buildTypes {
