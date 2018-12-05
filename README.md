@@ -6,8 +6,8 @@ This client is made for test purpose only. It's not related to Gitbub Inc. in an
   - Load basic github profile info
   - Show your first 30 github notifications
 
-#App1
-# Libraries & Solutions used:
+# App1
+## Libraries & Solutions used:
   - *Architecture*: MVVM
   - *MVVM Framework:* Android Architecture Components
   - *Database:* Room
@@ -16,8 +16,8 @@ This client is made for test purpose only. It's not related to Gitbub Inc. in an
   - *Unit tests:* mockito-kotlin2 
   - *Android Instrumental tests:* Espresso + Kakao + mockito-kotlin2
 
-#App2
-# Libraries & Solutions used:
+# App2
+## Libraries & Solutions used:
   - *Architecture*: MVVM
   - *MVVM Framework:* Android Architecture Components
   - *Database:* Room

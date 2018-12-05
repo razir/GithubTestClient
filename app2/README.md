@@ -1,5 +1,3 @@
-# Test Android Github Notifications client
-
 # Libraries & Solutions used:
   - *Architecture*: MVVM
   - *MVVM Framework:* Android Architecture Components
