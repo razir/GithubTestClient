@@ -8,7 +8,7 @@ import io.reactivex.Single
 interface NotificationLocalRepository {
     fun getNotifications(): Single<List<Notification>>
 
-    fun saveNotifications(data: List<Notification>): Completable
+    fun saveNotifications(data: List<Notification>)
 
     fun deleteAll(): Completable
 }
@@ -29,18 +29,16 @@ class NotificationLocalRepositoryImpl(
         }
     }
 
-    override fun saveNotifications(data: List<Notification>): Completable {
-        return Completable.fromCallable {
-            notificationsDao.deleteAll()
-            repositoryDao.deleteAll()
-            data.forEach {
-                it.repositoryId = it.repository?.id ?: ""
-                it.repository?.let {
-                    repositoryDao.save(it)
-                }
+    override fun saveNotifications(data: List<Notification>) {
+        notificationsDao.deleteAll()
+        repositoryDao.deleteAll()
+        data.forEach {
+            it.repositoryId = it.repository?.id ?: ""
+            it.repository?.let {
+                repositoryDao.save(it)
             }
-            notificationsDao.save(data)
         }
+        notificationsDao.save(data)
     }
 
     override fun deleteAll(): Completable {
