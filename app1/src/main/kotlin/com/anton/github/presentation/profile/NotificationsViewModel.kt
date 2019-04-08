@@ -10,6 +10,7 @@ import com.anton.github.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class NotificationsViewModel(
@@ -58,7 +59,7 @@ class NotificationsViewModel(
             detailsLoading.value = true
             launch(detailsJob!! + DispatchersProvider.IO) {
                 val result = getDetailsUrlUseCase.run(it)
-                launch(DispatchersProvider.Main) {
+                withContext(DispatchersProvider.Main) {
                     detailsLoading.value = false
                     when (result) {
                         is SuccessUseCase<String> -> openDetails.value = result.result
@@ -72,7 +73,7 @@ class NotificationsViewModel(
     private fun loadNotificationsFromCache() {
         launch(DispatchersProvider.IO) {
             val cachedNotiResult = getLocalNotificationsUseCase.run()
-            launch(DispatchersProvider.Main) {
+            withContext(DispatchersProvider.Main) {
                 notificationsLoading.value = false
                 val cachedNoti = (cachedNotiResult as SuccessUseCase<List<Notification>>).result
                 if (cachedNoti.isEmpty()) {
@@ -91,7 +92,7 @@ class NotificationsViewModel(
         notificationsLoading.value = true
         launch(DispatchersProvider.IO) {
             val data = getRemoteNotificationsUseCase.run(0)
-            launch(DispatchersProvider.Main) {
+            withContext(DispatchersProvider.Main) {
                 when (data) {
                     is SuccessUseCase<List<Notification>> -> {
                         notificationsLoading.value = false

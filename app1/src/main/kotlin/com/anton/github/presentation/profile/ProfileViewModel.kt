@@ -13,6 +13,7 @@ import com.anton.github.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class ProfileViewModel(
@@ -54,7 +55,7 @@ class ProfileViewModel(
     fun logoutConfirmed() {
         launch(DispatchersProvider.IO) {
             logoutUseCase.run()
-            launch(DispatchersProvider.Main) {
+            withContext(DispatchersProvider.Main) {
                 showLogin.call()
             }
         }
@@ -63,7 +64,7 @@ class ProfileViewModel(
     private fun loadProfileFromRemote() {
         launch(DispatchersProvider.IO) {
             val profileData = getRemoteUserProfileUseCase.run()
-            launch(DispatchersProvider.Main) {
+            withContext(DispatchersProvider.Main) {
                 if (profileData is SuccessUseCase<UserProfile>) {
                     val userProfile = profileData.result
                     setProfileInfo(userProfile)

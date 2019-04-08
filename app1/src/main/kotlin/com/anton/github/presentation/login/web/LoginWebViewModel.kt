@@ -11,6 +11,7 @@ import com.anton.github.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class LoginWebViewModel(
@@ -90,7 +91,7 @@ class LoginWebViewModel(
     private fun getToken(code: String) {
         launch(DispatchersProvider.IO) {
             val result = authorizeUseCase.run(code)
-            launch(DispatchersProvider.Main) {
+            withContext(DispatchersProvider.Main) {
                 when (result) {
                     is ErrorUseCase -> showTokenError.value = result.msg
                     is CompletedUseCase -> showProfile.call()
