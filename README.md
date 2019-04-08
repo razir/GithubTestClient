@@ -30,15 +30,6 @@ This client is made for test purpose only. It's not related to Gitbub Inc. in an
 
 ## Instructions to run
 
-#### To run from the sources you need: 
-1) create your own github oauth application with redirect url ```https://google.com```
-2) create text file ```github_client.properties``` in the root project folder with app details from step 1.  
-
-client_id={your_client_id_here} . 
-
-client_secret={your_client_secret_here}
-
-
 #### To run from the apk: 
  1) Download the latest release from [here](https://github.com/razir/GithubTestClient/releases/) 
  
